@@ -32,38 +32,34 @@ function game() {
     let playerScore = 0;
     let computerScore = 0;
 
-    for (let i = 1; i <= 5; i++) {
-        playerSelection = prompt("Choose either 'rock,' 'paper,' or 'scissors'?", "")
+    const div = document.querySelector('div');
+    const btns = document.querySelectorAll('button');
 
-        switch(playRound(playerSelection, computerSelection)) {
+    btns.forEach(btn => btn.addEventListener('click', e => {
+        switch(playRound(e.target.textContent, getComputerChoice())) {
             case "You Win!":
-                console.log(`Player wins round ${i}`)
                 playerScore++
+                div.textContent = playerScore === 5 ? calcWinner(playerScore, computerScore) : `Player: ${playerScore} - Computer: ${computerScore}`
             break;
             case "You Lose!":
-                console.log(`Computer wins round ${i}`)
                 computerScore++
+                div.textContent = computerScore === 5 ? calcWinner(playerScore, computerScore) : `Player: ${playerScore} - Computer: ${computerScore}`
             break;
             case "Draw!":
-                console.log(`Round ${i} draw`)
+                div.textContent = `Player: ${playerScore} - Computer: ${computerScore}`
             break;
         }
-    }
-    
-    calcWinner(playerScore, computerScore);
+    }));
 }
 
 function calcWinner(playerScore, computerScore) {
     if (playerScore > computerScore) {
-        console.log(`Player won by ${playerScore} to ${computerScore}`)
+        return `Player won by ${playerScore} to ${computerScore}`
     } else if (playerScore < computerScore) {
-        console.log(`Computer won by ${computerScore} to ${playerScore}`)
+        return `Computer won by ${computerScore} to ${playerScore}`
     } else {
-        console.log(`It's a tie of ${playerScore} - ${computerScore}`)
+        return `It's a tie of ${playerScore} - ${computerScore}`
     }
 }
-
-let playerSelection = "";
-let computerSelection = getComputerChoice();
 
 game();
